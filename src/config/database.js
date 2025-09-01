@@ -1,15 +1,25 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
-const pool = new Pool({
+// Check if DATABASE_URL is provided
+if (!process.env.DATABASE_URL) {
+    console.warn('⚠️  DATABASE_URL not provided. Database features will be disabled.');
+}
+
+const pool = process.env.DATABASE_URL ? new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: {
+    ssl: process.env.NODE_ENV === 'production' ? {
         rejectUnauthorized: false
-    }
-});
+    } : false
+}) : null;
 
 // Database initialization
 async function initializeDatabase() {
+    if (!pool) {
+        console.log('📊 Database not configured. Skipping database initialization.');
+        return;
+    }
+    
     try {
         // Create users table
         await pool.query(`

@@ -229,6 +229,50 @@ Access the web dashboard at `http://localhost:3000`:
 
 ## 🚀 Deployment
 
+### Render Deployment (Recommended)
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
+#### Prerequisites for Render
+1. **GitHub Repository**: Push your code to GitHub
+2. **Render Account**: Sign up at [render.com](https://render.com)
+3. **API Keys**: At minimum, obtain a Google Gemini API key
+
+#### Quick Deploy Steps
+1. **Connect GitHub**: Link your GitHub account to Render
+2. **Create Web Service**:
+   - Click "New +" → "Web Service"
+   - Connect your GitHub repository
+   - Select this repository
+
+3. **Configure Service**:
+   - **Name**: `advanced-whatsapp-ai-bot`
+   - **Environment**: `Node`
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+   - **Plan**: Free (or paid for better performance)
+
+4. **Set Environment Variables**:
+   ```env
+   # Required
+   GEMINI_API_KEY=your_gemini_api_key_here
+   NODE_ENV=production
+   PORT=3000
+   
+   # Optional (for enhanced features)
+   OPENAI_API_KEY=your_openai_api_key_here
+   DATABASE_URL=postgresql://username:password@hostname:port/database_name
+   ```
+
+5. **Deploy**: Click "Create Web Service"
+6. **Access Dashboard**: Visit your Render URL
+7. **Connect WhatsApp**: Go to `/qr` endpoint and scan QR code
+
+#### Getting API Keys
+- **Gemini API**: [Google AI Studio](https://makersuite.google.com/app/apikey)
+- **OpenAI API**: [OpenAI Platform](https://platform.openai.com/api-keys)
+- **Database**: [Render PostgreSQL](https://render.com/docs/databases) (optional)
+
 ### Local Development
 ```bash
 npm run dev  # Uses nodemon for auto-restart
