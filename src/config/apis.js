@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 
 module.exports = {
     gemini: {
@@ -7,11 +7,23 @@ module.exports = {
         uploadUrl: process.env.GEMINI_UPLOAD_URL,
         summaryUrl: process.env.GEMINI_SUMMARY_URL
     },
-    openai: {
-        apiKey: process.env.OPENAI_API_KEY
-    },
     deepseek: {
         apiUrl: process.env.DEEPSEEK_API_URL
+    },
+    claudeai: {
+        apiUrl: "https://claudeai.anshppt19.workers.dev/api/chat"
+    },
+    laama: {
+        apiUrl: "https://laama.revangeapi.workers.dev/chat"
+    },
+    moonshotai: {
+        apiUrl: "https://allmodels.revangeapi.workers.dev/revangeapi/moonshotai-Kimi-K2-Instruct/chat"
+    },
+    qwen3coder: {
+        apiUrl: "https://allmodels.revangeapi.workers.dev/revangeapi/qwen3-coder/chat"
+    },
+    imageGen: {
+        apiUrl: "https://sheikhhridoy.nagad.my.id/api/ai-art-generator.php"
     },
     tts: {
         apiUrl: process.env.TTS_API_URL,

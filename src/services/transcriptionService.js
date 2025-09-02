@@ -2,14 +2,12 @@ const fetch = require('node-fetch');
 const FormData = require('form-data');
 const fs = require('fs');
 const path = require('path');
-const { OpenAI } = require('openai');
 const apis = require('../config/apis');
+const logger = require('../utils/logger');
 
 class TranscriptionService {
     constructor() {
-        this.openai = new OpenAI({
-            apiKey: apis.openai.apiKey
-        });
+        // No OpenAI dependency
     }
 
     async transcribeAudio(audioBuffer, fileName = 'audio.ogg') {
@@ -23,20 +21,21 @@ class TranscriptionService {
             const tempFilePath = path.join(tempDir, fileName);
             fs.writeFileSync(tempFilePath, audioBuffer);
 
-            // Try OpenAI Whisper first
+            let transcriptionResult;
             try {
-                const transcription = await this.transcribeWithWhisper(tempFilePath);
+                // Attempt transcription with Gemini
+                transcriptionResult = await this.transcribeWithGemini(tempFilePath);
                 
                 // Clean up temp file
                 fs.unlinkSync(tempFilePath);
                 
                 return {
                     success: true,
-                    transcription: transcription,
-                    service: 'OpenAI Whisper'
+                    transcription: transcriptionResult,
+                    service: 'Gemini AI'
                 };
-            } catch (whisperError) {
-                console.log('Whisper failed, trying alternative method:', whisperError.message);
+            } catch (geminiError) {
+                logger.warn(`Gemini transcription failed: ${geminiError.message}. Falling back to mock transcription.`);
                 
                 // Fallback to mock transcription for demo
                 const mockTranscription = await this.mockTranscription(audioBuffer);
@@ -51,7 +50,7 @@ class TranscriptionService {
                 };
             }
         } catch (error) {
-            console.error('Audio transcription error:', error);
+            logger.error('Audio transcription error:', error);
             return {
                 success: false,
                 error: error.message
@@ -59,17 +58,40 @@ class TranscriptionService {
         }
     }
 
-    async transcribeWithWhisper(filePath) {
+    async transcribeWithGemini(filePath) {
         try {
-            const transcription = await this.openai.audio.transcriptions.create({
-                file: fs.createReadStream(filePath),
-                model: 'whisper-1',
-                language: 'en'
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key=${apis.gemini.apiKey}`;
+            const imageBase64 = fs.readFileSync(filePath, { encoding: 'base64' });
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [
+                            { text: 'Transcribe the audio in this file:' },
+                            {
+                                inline_data: {
+                                    mime_type: 'audio/ogg',
+                                    data: imageBase64
+                                }
+                            }
+                        ]
+                    }]
+                })
             });
 
-            return transcription.text;
+            const data = await response.json();
+            
+            if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                return data.candidates[0].content.parts[0].text;
+            } else {
+                throw new Error('Invalid Gemini Vision API response for audio transcription');
+            }
         } catch (error) {
-            console.error('Whisper transcription error:', error);
+            logger.error('Gemini audio transcription error:', error);
             throw error;
         }
     }
@@ -95,27 +117,6 @@ class TranscriptionService {
         await new Promise(resolve => setTimeout(resolve, 1000));
         
         return randomText;
-    }
-
-    async transcribeWithGoogleSpeech(audioBuffer) {
-        // Placeholder for Google Speech-to-Text API
-        // This would require Google Cloud credentials
-        try {
-            // Mock implementation
-            return "Transcription via Google Speech API (not implemented in demo)";
-        } catch (error) {
-            throw new Error('Google Speech API not configured');
-        }
-    }
-
-    async transcribeWithAzureSpeech(audioBuffer) {
-        // Placeholder for Azure Speech Services
-        try {
-            // Mock implementation
-            return "Transcription via Azure Speech Services (not implemented in demo)";
-        } catch (error) {
-            throw new Error('Azure Speech Services not configured');
-        }
     }
 
     getSupportedFormats() {
@@ -157,4 +158,5 @@ class TranscriptionService {
 }
 
 module.exports = new TranscriptionService();
+
 

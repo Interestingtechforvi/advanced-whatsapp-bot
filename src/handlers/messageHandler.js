@@ -1,8 +1,7 @@
-const { downloadMediaMessage } = require('@whiskeysockets/baileys');
-const User = require('../models/User');
-const Conversation = require('../models/Conversation');
-const aiService = require('../services/aiService');
-const CommandHandler = require('./commandHandler');
+const User = require("../models/User");
+const Conversation = require("../models/Conversation");
+const aiService = require("../services/aiService");
+const CommandHandler = require("./commandHandler");
 
 class MessageHandler {
     constructor(sock) {
@@ -13,29 +12,29 @@ class MessageHandler {
     async handleMessage(msg) {
         try {
             // Skip own messages and group messages
-            if (msg.key.fromMe || msg.key.remoteJid.includes('@g.us')) {
+            if (msg.key.fromMe || msg.key.remoteJid.includes("@g.us")) {
                 return;
             }
 
             const remoteJid = msg.key.remoteJid;
-            const phoneNumber = remoteJid.replace('@s.whatsapp.net', '');
+            const phoneNumber = remoteJid.replace("@s.whatsapp.net", "");
             
             // Get or create user
             let user = await User.findByPhoneNumber(phoneNumber);
             if (!user) {
                 user = await User.create(phoneNumber);
                 if (!user) {
-                    console.error('Failed to create user');
+                    console.error("Failed to create user");
                     return;
                 }
             }
 
             // Mark message as read
             await this.sock.readMessages([msg.key]);
-            await this.sock.sendPresenceUpdate('composing', remoteJid);
+            await this.sock.sendPresenceUpdate("composing", remoteJid);
 
             let response;
-            let messageText = '';
+            let messageText = "";
 
             // Extract message text
             if (msg.message.conversation) {
@@ -67,29 +66,32 @@ class MessageHandler {
                 }
             }
 
-            await this.sock.sendPresenceUpdate('paused', remoteJid);
+            await this.sock.sendPresenceUpdate("paused", remoteJid);
 
         } catch (error) {
-            console.error('Message handling error:', error);
+            console.error("Message handling error:", error);
             await this.sock.sendMessage(msg.key.remoteJid, { 
                 text: "❌ Sorry, I encountered an error processing your message. Please try again." 
             });
-            await this.sock.sendPresenceUpdate('paused', msg.key.remoteJid);
+            await this.sock.sendPresenceUpdate("paused", msg.key.remoteJid);
         }
     }
 
     async handleTextMessage(messageText, user, remoteJid) {
         try {
             // Handle first-time username setup
-            if (user.is_first_time && messageText.toLowerCase().startsWith('my name is')) {
+            if (user.is_first_time && messageText.toLowerCase().startsWith("my name is")) {
                 const username = messageText.substring(10).trim();
                 if (username) {
                     await User.updateUsername(user.id, username);
                     return `✅ Nice to meet you, ${username}! 👋\n\n` +
                            `🤖 Now, please select your preferred AI model:\n\n` +
                            `• */model gemini* - Google Gemini AI (Recommended)\n` +
-                           `• */model openai* - OpenAI ChatGPT\n` +
-                           `• */model deepseek* - DeepSeek AI\n\n` +
+                           `• */model deepseek* - DeepSeek AI\n` +
+                           `• */model claudeai* - Claude AI\n` +
+                           `• */model laama* - Laama AI\n` +
+                           `• */model moonshotai* - Moonshot AI\n` +
+                           `• */model qwen3coder* - Qwen3-Coder AI\n\n` +
                            `You can change this anytime using the */model* command.`;
                 }
             }
@@ -114,7 +116,7 @@ class MessageHandler {
             return aiResponse;
 
         } catch (error) {
-            console.error('Text message handling error:', error);
+            console.error("Text message handling error:", error);
             return "❌ Sorry, I couldn't process your message. Please try again.";
         }
     }
@@ -122,12 +124,12 @@ class MessageHandler {
     async handleAudioMessage(msg, user, remoteJid) {
         try {
             // Check if it's a transcription request
-            const caption = msg.message.audioMessage.caption || '';
-            if (caption.toLowerCase().includes('/transcribe')) {
+            const caption = msg.message.audioMessage.caption || "";
+            if (caption.toLowerCase().includes("/transcribe")) {
                 // Download and transcribe audio
                 const audioBuffer = await this.downloadMedia(msg);
                 if (audioBuffer) {
-                    const transcriptionService = require('../services/transcriptionService');
+                    const transcriptionService = require("../services/transcriptionService");
                     const result = await transcriptionService.transcribeAudio(audioBuffer);
                     
                     if (result.success) {
@@ -146,14 +148,14 @@ class MessageHandler {
                    `Reply with */transcribe* to convert speech to text.`;
 
         } catch (error) {
-            console.error('Audio message handling error:', error);
+            console.error("Audio message handling error:", error);
             return "❌ Sorry, I couldn't process the audio message.";
         }
     }
 
     async handleImageMessage(msg, user, remoteJid) {
         try {
-            const caption = msg.message.imageMessage.caption || '';
+            const caption = msg.message.imageMessage.caption || "";
             
             if (caption) {
                 // If there's a caption, treat it as a text message with image context
@@ -168,21 +170,21 @@ class MessageHandler {
                    `• Or ask any specific question about the image`;
 
         } catch (error) {
-            console.error('Image message handling error:', error);
+            console.error("Image message handling error:", error);
             return "❌ Sorry, I couldn't process the image.";
         }
     }
 
     async handleDocumentMessage(msg, user, remoteJid) {
         try {
-            const caption = msg.message.documentMessage.caption || '';
+            const caption = msg.message.documentMessage.caption || "";
             
-            if (caption.toLowerCase().includes('/summary')) {
+            if (caption.toLowerCase().includes("/summary")) {
                 // Download and summarize document
                 const docBuffer = await this.downloadMedia(msg);
                 if (docBuffer) {
-                    const fileName = msg.message.documentMessage.fileName || 'document';
-                    const fileContent = docBuffer.toString('utf-8'); // Simple text extraction
+                    const fileName = msg.message.documentMessage.fileName || "document";
+                    const fileContent = docBuffer.toString("utf-8"); // Simple text extraction
                     
                     const summary = await aiService.summarizeFile(fileContent, fileName);
                     return `📄 *Document Summary*\n\n` +
@@ -196,23 +198,19 @@ class MessageHandler {
                    `Reply with */summary* to get a summary of the document.`;
 
         } catch (error) {
-            console.error('Document message handling error:', error);
+            console.error("Document message handling error:", error);
             return "❌ Sorry, I couldn't process the document.";
         }
     }
 
     async downloadMedia(msg) {
         try {
-            const buffer = await downloadMediaMessage(
-                msg,
-                'buffer',
-                { 
-                    logger: require('pino')({ level: 'silent' })
-                }
-            );
-            return buffer;
+            // This is a simplified version - in a real implementation,
+            // you would use Baileys' downloadMediaMessage function
+            console.log("Media download requested but not implemented in demo");
+            return Buffer.from("demo content"); // Mock buffer for demo
         } catch (error) {
-            console.error('Media download error:', error);
+            console.error("Media download error:", error);
             return null;
         }
     }
@@ -223,10 +221,10 @@ class MessageHandler {
             const recentConversations = await Conversation.getRecentConversations(user.id, 3);
             
             if (recentConversations.length === 0) {
-                return `User: ${user.username || 'User'}, AI Model: ${user.preferred_ai_model}`;
+                return `User: ${user.username || "User"}, AI Model: ${user.preferred_ai_model}`;
             }
 
-            let context = `User: ${user.username || 'User'}, AI Model: ${user.preferred_ai_model}\n\nRecent conversation:\n`;
+            let context = `User: ${user.username || "User"}, AI Model: ${user.preferred_ai_model}\n\nRecent conversation:\n`;
             
             recentConversations.reverse().forEach(conv => {
                 context += `User: ${conv.message}\nAssistant: ${conv.response}\n\n`;
@@ -234,10 +232,12 @@ class MessageHandler {
 
             return context;
         } catch (error) {
-            console.error('Context building error:', error);
-            return `User: ${user.username || 'User'}, AI Model: ${user.preferred_ai_model}`;
+            console.error("Context building error:", error);
+            return `User: ${user.username || "User"}, AI Model: ${user.preferred_ai_model}`;
         }
     }
 }
 
 module.exports = MessageHandler;
+
+

@@ -323,7 +323,7 @@ async function startServer() {
         const PORT = process.env.PORT || 3000;
         app.listen(PORT, '0.0.0.0', () => {
             logger.info(`🚀 Advanced WhatsApp Bot Server running on port ${PORT}`);
-            logger.info(`📱 Dashboard: ${process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`}`);
+            logger.info(`📱 Dashboard: http://localhost:${PORT}`);
             logger.info(`📱 QR Code: http://localhost:${PORT}/qr`);
         });
         

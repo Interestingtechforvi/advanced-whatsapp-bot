@@ -1,35 +1,36 @@
-const User = require('../models/User');
-const aiService = require('../services/aiService');
-const ttsService = require('../services/ttsService');
-const truecallerService = require('../services/truecallerService');
-const researchService = require('../services/researchService');
-const transcriptionService = require('../services/transcriptionService');
-const apis = require('../config/apis');
+const User = require("../models/User");
+const aiService = require("../services/aiService");
+const ttsService = require("../services/ttsService");
+const truecallerService = require("../services/truecallerService");
+const researchService = require("../services/researchService");
+const transcriptionService = require("../services/transcriptionService");
+const apis = require("../config/apis");
 
 class CommandHandler {
     constructor(sock) {
         this.sock = sock;
         this.commands = {
-            '/start': this.handleStart.bind(this),
-            '/help': this.handleHelp.bind(this),
-            '/model': this.handleModelSelection.bind(this),
-            '/voice': this.handleVoiceSelection.bind(this),
-            '/tts': this.handleTextToSpeech.bind(this),
-            '/research': this.handleResearch.bind(this),
-            '/search': this.handleQuickSearch.bind(this),
-            '/news': this.handleNews.bind(this),
-            '/truecaller': this.handleTruecaller.bind(this),
-            '/transcribe': this.handleTranscribe.bind(this),
-            '/summary': this.handleSummary.bind(this),
-            '/settings': this.handleSettings.bind(this),
-            '/status': this.handleStatus.bind(this)
+            "/start": this.handleStart.bind(this),
+            "/help": this.handleHelp.bind(this),
+            "/model": this.handleModelSelection.bind(this),
+            "/voice": this.handleVoiceSelection.bind(this),
+            "/tts": this.handleTextToSpeech.bind(this),
+            "/research": this.handleResearch.bind(this),
+            "/search": this.handleQuickSearch.bind(this),
+            "/news": this.handleNews.bind(this),
+            "/truecaller": this.handleTruecaller.bind(this),
+            "/transcribe": this.handleTranscribe.bind(this),
+            "/summary": this.handleSummary.bind(this),
+            "/settings": this.handleSettings.bind(this),
+            "/status": this.handleStatus.bind(this),
+            "/generate_image": this.handleGenerateImage.bind(this)
         };
     }
 
     async handleCommand(message, user, remoteJid) {
-        const parts = message.trim().split(' ');
+        const parts = message.trim().split(" ");
         const command = parts[0].toLowerCase();
-        const args = parts.slice(1).join(' ');
+        const args = parts.slice(1).join(" ");
 
         if (this.commands[command]) {
             return await this.commands[command](args, user, remoteJid);
@@ -46,12 +47,15 @@ class CommandHandler {
                    `Please tell me your name by typing: *My name is [Your Name]*\n\n` +
                    `🤖 *Available AI Models:*\n` +
                    `1. Gemini AI (Google)\n` +
-                   `2. OpenAI (ChatGPT)\n` +
-                   `3. DeepSeek AI\n\n` +
+                   `2. DeepSeek AI\n` +
+                   `3. Claude AI\n` +
+                   `4. Laama AI\n` +
+                   `5. Moonshot AI\n` +
+                   `6. Qwen3-Coder AI\n\n` +
                    `Type */model* to select your preferred AI model.\n\n` +
                    `Type */help* to see all available commands.`;
         } else {
-            return `👋 Welcome back, ${user.username || 'there'}!\n\n` +
+            return `👋 Welcome back, ${user.username || "there"}!\n\n` +
                    `🤖 Current AI Model: *${user.preferred_ai_model}*\n\n` +
                    `Type */help* to see all available commands.`;
         }
@@ -73,6 +77,8 @@ class CommandHandler {
                `• */research [topic]* - Deep research\n` +
                `• */search [query]* - Quick web search\n` +
                `• */news [topic]* - Latest news\n\n` +
+               `*🖼️ Image Commands:*\n` +
+               `• */generate_image [prompt]* - Generate an image from text\n\n` +
                `*📱 Utility Commands:*\n` +
                `• */truecaller [number]* - Phone lookup\n` +
                `• */summary* - Summarize files (reply to document)\n\n` +
@@ -86,15 +92,18 @@ class CommandHandler {
                    `Current: *${user.preferred_ai_model}*\n\n` +
                    `Available models:\n` +
                    `• */model gemini* - Google Gemini AI\n` +
-                   `• */model openai* - OpenAI ChatGPT\n` +
-                   `• */model deepseek* - DeepSeek AI`;
+                   `• */model deepseek* - DeepSeek AI\n` +
+                   `• */model claudeai* - Claude AI\n` +
+                   `• */model laama* - Laama AI\n` +
+                   `• */model moonshotai* - Moonshot AI\n` +
+                   `• */model qwen3coder* - Qwen3-Coder AI`;
         }
 
         const model = args.toLowerCase();
-        const validModels = ['gemini', 'openai', 'deepseek'];
+        const validModels = ["gemini", "deepseek", "claudeai", "laama", "moonshotai", "qwen3coder"];
 
         if (!validModels.includes(model)) {
-            return `❌ Invalid model. Choose from: ${validModels.join(', ')}`;
+            return `❌ Invalid model. Choose from: ${validModels.join(", ")}`;
         }
 
         await User.updateAIModel(user.id, model);
@@ -107,7 +116,7 @@ class CommandHandler {
             return `🔊 *Select TTS Voice:*\n\n` +
                    `Usage: */voice [voice_name]*\n\n` +
                    `Popular voices:\n` +
-                   voices.map(voice => `• ${voice}`).join('\n') +
+                   voices.map(voice => `• ${voice}`).join("\n") +
                    `\n\nType */voice [name]* to select.`;
         }
 
@@ -131,7 +140,7 @@ class CommandHandler {
         }
 
         const preferences = await User.getPreferences(user.id);
-        const voice = preferences?.tts_voice || 'Salli';
+        const voice = preferences?.tts_voice || "Salli";
 
         const result = await ttsService.generateSpeech(args, voice);
 
@@ -151,9 +160,9 @@ class CommandHandler {
             return `🔍 *Deep Research*\n\nUsage: */research [topic]*\n\nExample: */research artificial intelligence trends 2024*`;
         }
 
-        await this.sock.sendPresenceUpdate('composing', remoteJid);
+        await this.sock.sendPresenceUpdate("composing", remoteJid);
         
-        const result = await researchService.deepResearch(args, 'medium');
+        const result = await researchService.deepResearch(args, "medium");
 
         if (result.success) {
             return result.synthesis;
@@ -172,9 +181,9 @@ class CommandHandler {
     }
 
     async handleNews(args, user, remoteJid) {
-        const topic = args || 'latest news';
+        const topic = args || "latest news";
         
-        await this.sock.sendPresenceUpdate('composing', remoteJid);
+        await this.sock.sendPresenceUpdate("composing", remoteJid);
         
         const result = await researchService.getNewsUpdates(topic);
         return result;
@@ -189,7 +198,7 @@ class CommandHandler {
             return `❌ Invalid phone number format. Please include country code.\n\nExample: +1234567890`;
         }
 
-        await this.sock.sendPresenceUpdate('composing', remoteJid);
+        await this.sock.sendPresenceUpdate("composing", remoteJid);
         
         const result = await truecallerService.lookupNumber(args);
         return truecallerService.formatLookupResult(result);
@@ -211,15 +220,36 @@ class CommandHandler {
                `Supported formats: PDF, DOC, TXT`;
     }
 
+    async handleGenerateImage(args, user, remoteJid) {
+        if (!args) {
+            return `🖼️ *Image Generation*\n\nUsage: */generate_image [prompt]*\n\nExample: */generate_image a cat in space*`;
+        }
+
+        await this.sock.sendPresenceUpdate("composing", remoteJid);
+
+        try {
+            const imageUrl = await aiService.generateImage(args);
+            if (imageUrl) {
+                await this.sock.sendMessage(remoteJid, { image: { url: imageUrl }, caption: `🖼️ Here's your image for: "${args}"` });
+                return ""; // Return empty string as message is sent via sendMessage
+            } else {
+                return "❌ Failed to generate image. Please try again.";
+            }
+        } catch (error) {
+            console.error("Image generation command error:", error);
+            return "❌ An error occurred during image generation. Please try again.";
+        }
+    }
+
     async handleSettings(args, user, remoteJid) {
         const preferences = await User.getPreferences(user.id);
         
         return `⚙️ *Your Settings*\n\n` +
-               `👤 *Username:* ${user.username || 'Not set'}\n` +
+               `👤 *Username:* ${user.username || "Not set"}\n` +
                `🤖 *AI Model:* ${user.preferred_ai_model}\n` +
-               `🔊 *TTS Voice:* ${preferences?.tts_voice || 'Salli'}\n` +
-               `🌍 *Language:* ${preferences?.language || 'en'}\n` +
-               `🔍 *Research Depth:* ${preferences?.research_depth || 'medium'}\n` +
+               `🔊 *TTS Voice:* ${preferences?.tts_voice || "Salli"}\n` +
+               `🌍 *Language:* ${preferences?.language || "en"}\n` +
+               `🔍 *Research Depth:* ${preferences?.research_depth || "medium"}\n` +
                `📅 *Member Since:* ${new Date(user.created_at).toLocaleDateString()}\n\n` +
                `Use commands to update your preferences.`;
     }
@@ -227,19 +257,21 @@ class CommandHandler {
     async handleStatus(args, user, remoteJid) {
         return `📊 *Bot Status*\n\n` +
                `✅ *Status:* Online\n` +
-               `🤖 *AI Models:* Gemini, OpenAI, DeepSeek\n` +
+               `🤖 *AI Models:* Gemini, DeepSeek, Claude AI, Laama, Moonshot AI, Qwen3-Coder\n` +
                `🔊 *TTS:* Available\n` +
                `📞 *Truecaller:* Available\n` +
                `🔍 *Research:* Available\n` +
                `🎤 *Transcription:* Available\n` +
-               `💾 *Database:* Connected\n\n` +
+               `💾 *Database:* Connected\n` +
+               `🖼️ *Image Generation:* Available\n\n` +
                `⏰ *Server Time:* ${new Date().toLocaleString()}`;
     }
 
     isCommand(message) {
-        return message.trim().startsWith('/');
+        return message.trim().startsWith("/");
     }
 }
 
 module.exports = CommandHandler;
+
 

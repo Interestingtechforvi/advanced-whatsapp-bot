@@ -50,7 +50,7 @@ class AdvancedWhatsAppBot {
                 keepAliveIntervalMs: 30000,
                 markOnlineOnConnect: true,
                 syncFullHistory: false,
-                printQRInTerminal: false
+                printQRInTerminal: true
             });
 
             // Initialize message handler
