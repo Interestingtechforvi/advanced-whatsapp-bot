@@ -1,0 +1,31 @@
+{
+  "name": "advanced-whatsapp-ai-bot",
+  "version": "2.0.0",
+  "description": "Advanced WhatsApp AI Chat Bot with multiple AI models, TTS, research capabilities",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.5",
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "ffmpeg-static": "^5.2.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "form-data": "^4.0.0",
+    "google-auth-library": "^9.4.0",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^2.7.0",
+    "openai": "^4.20.1",
+    "pg": "^8.11.3",
+    "pino": "^8.10.0",
+    "puppeteer": "^24.18.0",
+    "qrcode": "^1.5.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
