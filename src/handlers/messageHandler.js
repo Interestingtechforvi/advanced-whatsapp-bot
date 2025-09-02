@@ -1,5 +1,5 @@
-const { downloadMediaMessage } = require(\'@whiskeysockets/baileys\');
-const User = require(\'../models/User\');
+const { downloadMediaMessage } = require('@whiskeysockets/baileys');
+const User = require('../models/User');
 const Conversation = require('../models/Conversation');
 const aiService = require('../services/aiService');
 const CommandHandler = require('./commandHandler');
@@ -207,12 +207,12 @@ class MessageHandler {
                 msg,
                 'buffer',
                 { 
-                    logger: require(\'pino\')({ level: \'silent\' })
+                    logger: require('pino')({ level: 'silent' })
                 }
             );
             return buffer;
         } catch (error) {
-            console.error(\'Media download error:\', error);
+            console.error('Media download error:', error);
             return null;
         }
     }
@@ -241,4 +241,3 @@ class MessageHandler {
 }
 
 module.exports = MessageHandler;
-

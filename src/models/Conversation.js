@@ -39,8 +39,8 @@ class Conversation {
         
         try {
             const result = await pool.query(
-                'SELECT * FROM conversations WHERE user_id = $1 AND created_at >= NOW() - INTERVAL \'$2 days\' ORDER BY created_at DESC',
-                [userId, days]
+                `SELECT * FROM conversations WHERE user_id = $1 AND created_at >= NOW() - INTERVAL '${days} days' ORDER BY created_at DESC`,
+                [userId]
             );
             return result.rows;
         } catch (error) {
@@ -51,4 +51,3 @@ class Conversation {
 }
 
 module.exports = Conversation;
-
