@@ -1,0 +1,56 @@
+nohup: ignoring input
+
+> whatsapp-nodejs-api@2.0.0 start
+> node server.js
+
+🚀 Server running on port 3000
+📱 WhatsApp Bot API: http://localhost:3000
+📊 Status: http://localhost:3000/status
+📱 QR Code: http://localhost:3000/qr
+🚀 Initializing WhatsApp Bot...
+🚀 Initializing WhatsApp Bot...
+⚠️ The printQRInTerminal option has been deprecated. You will no longer receive QR codes in the terminal automatically. Please listen to the connection.update event yourself and handle the QR your way. You can remove this message by removing this opttion. This message will be removed in a future version.
+📱 QR Code generated
+📱 QR Code generated
+127.0.0.1 - - [03/Sep/2025:04:27:21 +0000] "GET /status HTTP/1.1" 200 686 "-" "curl/7.81.0"
+127.0.0.1 - - [03/Sep/2025:04:27:27 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+127.0.0.1 - - [03/Sep/2025:04:27:27 +0000] "GET /status HTTP/1.1" 200 688 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+127.0.0.1 - - [03/Sep/2025:04:27:27 +0000] "GET /qr HTTP/1.1" 200 289 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+127.0.0.1 - - [03/Sep/2025:04:27:27 +0000] "GET /utility/system-info HTTP/1.1" 200 407 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+🔌 Client connected: U8z4SQwCqxiymv6HAAAB
+127.0.0.1 - - [03/Sep/2025:04:27:27 +0000] "GET /favicon.ico HTTP/1.1" 404 122 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+📱 QR Code generated
+📱 QR Code generated
+127.0.0.1 - - [03/Sep/2025:04:27:57 +0000] "GET /status HTTP/1.1" 200 686 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+127.0.0.1 - - [03/Sep/2025:04:28:05 +0000] "GET /api/search?query=Hello%2C+how+are+you%3F HTTP/1.1" 200 440 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+📱 QR Code generated
+📱 QR Code generated
+127.0.0.1 - - [03/Sep/2025:04:28:26 +0000] "GET /ai/chat/gemini?prompt=Hello HTTP/1.1" 200 573 "-" "curl/7.81.0"
+127.0.0.1 - - [03/Sep/2025:04:28:27 +0000] "GET /status HTTP/1.1" 200 687 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+127.0.0.1 - - [03/Sep/2025:04:28:27 +0000] "GET /utility/system-info HTTP/1.1" 200 406 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+AI Model gemini error: Request failed with status code 429
+127.0.0.1 - - [03/Sep/2025:04:28:32 +0000] "GET /ai/chat/gemini?prompt=Hello HTTP/1.1" 200 137 "-" "curl/7.81.0"
+API text_translator error: Request failed with status code 404
+127.0.0.1 - - [03/Sep/2025:04:28:32 +0000] "GET /api/translate?text=Hello&target_language=es HTTP/1.1" 200 144 "-" "curl/7.81.0"
+127.0.0.1 - - [03/Sep/2025:04:28:32 +0000] "GET /utility/qr-generator?text=Hello HTTP/1.1" 200 216 "-" "curl/7.81.0"
+127.0.0.1 - - [03/Sep/2025:04:28:37 +0000] "GET /api/list HTTP/1.1" 200 646 "-" "curl/7.81.0"
+127.0.0.1 - - [03/Sep/2025:04:28:40 +0000] "GET /api/weather/hot-cities HTTP/1.1" 200 1424 "-" "curl/7.81.0"
+127.0.0.1 - - [03/Sep/2025:04:28:40 +0000] "GET /api/tts?text=Hello&voice=Salli HTTP/1.1" 200 7203 "-" "curl/7.81.0"
+📱 QR Code generated
+📱 QR Code generated
+127.0.0.1 - - [03/Sep/2025:04:28:57 +0000] "GET /status HTTP/1.1" 200 688 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+📱 QR Code generated
+📱 QR Code generated
+127.0.0.1 - - [03/Sep/2025:04:29:27 +0000] "GET /status HTTP/1.1" 200 688 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+127.0.0.1 - - [03/Sep/2025:04:29:27 +0000] "GET /utility/system-info HTTP/1.1" 200 407 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+📱 QR Code generated
+📱 QR Code generated
+127.0.0.1 - - [03/Sep/2025:04:29:57 +0000] "GET /status HTTP/1.1" 200 688 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+❌ Connection closed. Status: 408
+❌ WhatsApp Bot disconnected
+🔄 Reconnection attempt 1/5 in 2000ms...
+⚠️ The printQRInTerminal option has been deprecated. You will no longer receive QR codes in the terminal automatically. Please listen to the connection.update event yourself and handle the QR your way. You can remove this message by removing this opttion. This message will be removed in a future version.
+📱 QR Code generated
+📱 QR Code generated
+127.0.0.1 - - [03/Sep/2025:04:30:27 +0000] "GET /status HTTP/1.1" 200 708 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+127.0.0.1 - - [03/Sep/2025:04:30:27 +0000] "GET /utility/system-info HTTP/1.1" 200 404 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
