@@ -1,0 +1,135 @@
+{
+  "server": {
+    "port": 3000,
+    "host": "0.0.0.0"
+  },
+  "ai_models": {
+    "default": "gemini",
+    "available": {
+      "gemini": {
+        "name": "Google Gemini",
+        "endpoint": "internal",
+        "description": "Google's advanced AI model with vision capabilities",
+        "features": ["text", "image", "audio", "pdf"]
+      },
+      "chatgpt4": {
+        "name": "ChatGPT-4",
+        "endpoint": "https://api.kastg.xyz/api/ai/chatgptturbo",
+        "description": "OpenAI's GPT-4 model",
+        "features": ["text"]
+      },
+      "claude": {
+        "name": "Claude AI",
+        "endpoint": "https://api.kastg.xyz/api/ai/claude",
+        "description": "Anthropic's Claude AI",
+        "features": ["text"]
+      },
+      "deepseek": {
+        "name": "DeepSeek",
+        "endpoint": "https://api.kastg.xyz/api/ai/deepseek",
+        "description": "DeepSeek AI model for coding and general tasks",
+        "features": ["text", "code"]
+      },
+      "qwen3": {
+        "name": "Qwen3 Coder",
+        "endpoint": "https://api.kastg.xyz/api/ai/qwen",
+        "description": "Qwen3 specialized for coding tasks",
+        "features": ["text", "code"]
+      },
+      "moonshot": {
+        "name": "Moonshot AI",
+        "endpoint": "https://api.kastg.xyz/api/ai/moonshot",
+        "description": "Moonshot AI Kimi model",
+        "features": ["text"]
+      },
+      "llama": {
+        "name": "Llama",
+        "endpoint": "https://api.kastg.xyz/api/ai/llama",
+        "description": "Meta's Llama model",
+        "features": ["text"]
+      }
+    }
+  },
+  "apis": {
+    "google_search": {
+      "endpoint": "https://api.kastg.xyz/api/search/google",
+      "enabled": true,
+      "description": "Search the web for information"
+    },
+    "weather": {
+      "endpoint": "https://api.kastg.xyz/api/tools/weather",
+      "enabled": true,
+      "description": "Get weather information for any location"
+    },
+    "translator": {
+      "endpoint": "https://api.kastg.xyz/api/tools/translate",
+      "enabled": true,
+      "description": "Translate text to any language"
+    },
+    "translator_alt": {
+      "endpoint": "https://translate.googleapis.com/translate_a/single",
+      "enabled": true,
+      "description": "Alternative Google Translate service"
+    },
+    "youtube_transcribe": {
+      "endpoint": "https://api.kastg.xyz/api/tools/youtube-transcript",
+      "enabled": true,
+      "description": "Transcribe YouTube videos"
+    },
+    "youtube_summarizer": {
+      "endpoint": "https://api.kastg.xyz/api/tools/youtube-summary",
+      "enabled": true,
+      "description": "Summarize YouTube videos"
+    },
+    "truecaller": {
+      "endpoint": "https://api.kastg.xyz/api/tools/truecaller",
+      "enabled": true,
+      "description": "Get phone number information"
+    },
+    "phone_info": {
+      "endpoint": "https://api.kastg.xyz/api/tools/phone-specs",
+      "enabled": true,
+      "description": "Get detailed phone specifications"
+    },
+    "image_to_pdf": {
+      "endpoint": "https://api.kastg.xyz/api/tools/img2pdf",
+      "enabled": true,
+      "description": "Convert images to PDF"
+    },
+    "tts": {
+      "endpoint": "https://api.streamelements.com/kappa/v2/speech",
+      "enabled": true,
+      "description": "Text-to-speech conversion",
+      "voices": {
+        "female": ["Salli", "Joanna", "Amy", "Emma", "Ivy"],
+        "male": ["Matthew", "Justin", "Brian", "Russell", "Joey"]
+      }
+    }
+  },
+  "user_profiles": {
+    "storage": "file",
+    "file_path": "./user_profiles.json",
+    "default_profile": {
+      "preferred_ai_model": "gemini",
+      "language": "en",
+      "voice_preference": "female",
+      "enabled_features": ["search", "weather", "translation", "youtube"],
+      "response_style": "detailed"
+    }
+  },
+  "features": {
+    "command_recognition": true,
+    "context_awareness": true,
+    "multi_modal_responses": true,
+    "auto_language_detection": true,
+    "smart_fallbacks": true
+  },
+  "security": {
+    "rate_limiting": {
+      "enabled": true,
+      "max_requests_per_minute": 30
+    },
+    "input_validation": true,
+    "cors_enabled": true
+  }
+}

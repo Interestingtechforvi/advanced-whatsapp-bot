@@ -1,0 +1,246 @@
+🤖 Chatgpt4 API
+Interact with a powerful chatbot to get instant answers to your questions.
+https://chatgpt-4-hridoy.vercel.app
+🚀 How to Use
+Add a prompt with
+?question=your_prompt
+. For example, use
+?question=What is the capital of Bangladesh?
+By opening the link, you will find more detailed guidance. Thank you! 📄✨
+Received at 12:15 PM
+ reacted with 😁
+Viewed 146 times
+🌐 AI Translator API
+Translate any text into your desired language using our fast and free AI-powered translation API.
+🔗 API Example:
+https://sheikhhridoy.nagad.my.id/api/AI-translator.php?text=Hello,%20how%20are%20you?&target_language=ne
+Just replace the text and target_language parameters as needed., Which of our APIs do you need most?, Anonymous Poll
+Received at 9:32 PM
+Viewed 143 times
+🌐 Text Translator API by Master Dara
+
+Instantly translate any text with ease!
+
+✅ Fast & Free
+✅ Easy GET Request
+✅ Supports Multiple Languages
+
+🔗 API URL:
+https://hs-translate-text.vercel.app
+
+📌 Parameters:
+1️⃣ text (Required) — The text you want to translate.
+2️⃣ targetLang (Optional) — Target language code (Default is English).
+
+📝 Example URL:
+https://hs-translate-text.vercel.app/?text=کیا کر رہو.&targetLang=ar
+
+📦 Response Example:
+
+{
+  "statusCode": 200,
+  "translatedText": "",
+  "developer": "Master Dara",
+  "join": "https://t.me/BTWOfficial189 and https://t.me/I_T_L189"
+}
+Received at 6:06 PM
+Viewed 169 times
+We are providing you with the Truecaller API. However, this is a public API that we did not create. Therefore, you must pay close attention to the credits before using it. The API URL is provided below. After entering your phone number with the country code, it will provide a response. Please use it and enjoy.https://truecaller.privates-bots.workers.dev/?q=, Which of our APIs do you need most?, Anonymous Poll
+Received at 7:48 PM
+Viewed 162 times
+, JSON file📔 API Name: YouTube Video Transcribe 
+
+🔗 API URL: https://api.hazex.sbs/yt-transcribe
+
+✨ Action: Transcribe any YouTube video into text with speaker separation and timestamped subtitles
+
+🔻 Request Method: GET (JSON)
+
+🔮 Parameters:
+└ url: YouTube Video URL
+
+🔻 Example: https://api.hazex.sbs/yt-transcribe?url=https://youtube.com/watch?v=xyz
+
+©️ Copy Claims By: @HazexAPI
+
+💬 Support Chat: @HazexApiChat, 🤔 Friends, which areas have you used the APIs published on our channel in?, Anonymous Poll, 81 B
+Received at 4:42 PM
+Viewed 146 times
+, JSON file# 🔍 Google Search API – by @nepcodernp
+
+Endpoint:  
+https://googlesearchapi.nepcoderapis.workers.dev/
+Usage:  
+GET request with:
+- q: search query  
+- num: number of results (optional, default 22)
+
+Example:  
+https://googlesearchapi.nepcoderapis.workers.dev/?q=who+is+nepcoder1&num=10
+Returns:  
+JSON with title, link, and snippet.
+
+Docs:  
+See /docs for full documentation.
+
+Note:  
+No API key required. 🚀  
+Made with ❤️ by @nepcodernp, 2 B
+Received at 4:49 PM
+Viewed 161 times
+## 🌤️ Ashlynn's Weather API
+
+Real-time weather & city data made simple.
+
+🔗 https://weather.itz-ashlynn.workers.dev/
+
+### ⚙️ Quick Endpoints:
+
+* /geo-city → Get city by lat & lon
+* /search-city → Find city by name
+* /hot-cities → Trending cities (by locale)
+* /translate → Translate city info to any locale
+* /bg-weather → Background weather by coords + key
+* /all-weather → 15-day forecast by coords + key
+
+📦 Returns clean JSON with success, code, result.
+
+⭐ Fast. Lightweight. Free.
+Built by Ashlynn Repository  🌟, Which of our APIs do you need most?, Anonymous Poll
+Received at 4:51 PM
+Viewed 259 times
+API Name: YouTube Video Summarizer
+
+API URL: https://api.hazex.sbs/yt-summarizer
+
+Action: Summarize any YouTube video into clear, concise text with support for word limit control
+
+Request Method: GET (JSON)
+
+Parameters:
+url: YouTube Video URL
+wordCount: Word Limit (min: 15, max: 1000)
+
+Example: https://api.hazex.sbs/yt-summarizer?url=https://youtube.com/watch?v=xyz&wordCount=100
+
+Copy Claims By: @HazexAPI
+
+Support Chat: @HazexApiChat, Which of our APIs do you need most?, Anonymous Poll
+Received at 2:29 PM
+ reacted with ❤
+Viewed 153 times
+Unleash the Power of Gemini Pro Models! 🌟
+
+You can chat with Gemini pro models with this API URL and API key
+
+Hey, Telegram fam! Here’s the dazzling API endpoint and key to fuel your AI Summarizer with Google Gemini’s brilliance! ✨
+
+API Key: AIzaSyC2Fsjk3yCRA8hDVYgg5LlMn4sxwoJJaWU 🔑
+Upload Endpoint: https://generativelanguage.googleapis.com/upload/v1beta/files 📤
+Summary Endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent 🚀
+
+### Python Examples to Ignite Your Code! 🔥
+
+1. Basic File Upload with Gemini 2.5-Pro
+import requests
+
+API_KEY = "AIzaSyC2Fsjk3yCRA8hDVYgg5LlMn4sxwoJJaWU"
+UPLOAD_URL = "https://generativelanguage.googleapis.com/upload/v1beta/files"
+file_path = "sample.pdf"
+
+with open(file_path, "rb") as file:
+    files = {"file": (file_path, file, "application/pdf")}
+    response = requests.post(f"{UPLOAD_URL}?key={API_KEY}", files=files)
+    print("Upload Success! 🎉", response.json())
+2. Summarize with Gemini 2.5-Pro
+import requests, json
+
+API_KEY = "AIzaSyC2Fsjk3yCRA8hDVYgg5LlMn4sxwoJJaWU"
+SUMMARY_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent"
+payload = {
+    "contents": [{"parts": [{"text": "Summarize this file!"}, {"fileData": {"fileUri": "your_file_uri", "mimeType": "application/pdf"}}]}]
+}
+headers = {"Content-Type": "application/json"}
+response = requests.post(f"{SUMMARY_URL}?key={API_KEY}", headers=headers, data=json.dumps(payload))
+print("Summary Ready! 🌟", response.json()["candidates"][0]["content"]["parts"][0]["text"])
+3. Dynamic Model Switch (e.g., Gemini 2.5-Pro)
+import requests
+
+MODEL = "gemini-2.5-pro"  # Swap to any pro model! 🚀
+API_KEY = "AIzaSyC2Fsjk3yCRA8hDVYgg5LlMn4sxwoJJaWU"
+SUMMARY_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
+payload = {
+    "contents": [{"parts": [{"text": "Describe this image!"}, {"fileData": {"fileUri": "your_image_uri", "mimeType": "image/png"}}]}]
+}
+response = requests.post(f"{SUMMARY_URL}?key={API_KEY}", json=payload)
+print("AI Magic Unleashed! ✨", response.json()["candidates"][0]["content"]["parts"][0]["text"])
+🔥 Join the AI revolution! Subscribe to our Telegram channel for more:  Accessible API Hub  https://t.me/AccessibleAPI123
+Received at 9:45 AM
+Viewed 155 times
+🔐 Instagram Password Reset API – Free & Fast!
+
+Reset any Instagram account's password request link using just the username!
+
+🚀 Live Now – Developer Friendly
+Use our powerful, public API to generate reset links instantly.
+
+🔧 API Base URL:
+https://passreset.ziddi.workers.dev/api/reset?username=USERNAME_HERE
+
+📄 Documentation:
+https://passreset.ziddi.workers.dev/docs
+
+🧪 Live Tester:
+https://passreset.ziddi.workers.dev/live
+
+🌐 Main Site:
+https://passreset.ziddi.workers.dev/
+
+✅ No login required
+✅ Fast response time
+✅ Works worldwide
+✅ Free to use
+
+
+any issue dm me - @nobihubkl_bot, Which of our APIs do you need most?, Anonymous Poll
+Received at 6:20 AM
+Viewed 160 times
+new API alert for all of you ✅ Image → PDF API
+Base URL: https://anshimagetopdfapi.onrender.com/anshapi/imagetopdf
+
+👉 Usage:
+
+?url=image1,image2,image3
+
+Example:
+https://anshimagetopdfapi.onrender.com/anshapi/imagetopdf?url=https://site/a.jpg,https://site/b.jpg
+
+📂 Output: anshapi.pdf (all images combined in order).
+
+⚡ Supports JPG/PNG/WebP, multiple links allowed, Which of our APIs do you need most?, Anonymous Poll
+Received at 1:33 PM
+Viewed 73 times
+, JSON filenew API alert for all of you make web app web tools and android application by using this API completely free use and enjoy 📔 API Name: Phone Info API (Yabes-Desu Workers)
+
+🔗 API URL: https://api.yabes-desu.workers.dev/tools/phone-info
+
+✨ Action: Retrieve detailed phone specifications including name, brand, price, release date, and full specs list.
+
+🔻 Request Method: GET (JSON)
+
+🔮 Parameters:
+ ├ query: Phone model name to search (e.g., Poco F5) *
+ └ random: Optional random string to prevent cache (Df: none)
+
+💠 Example: https://api.yabes-desu.workers.dev/tools/phone-info?query=Poco+F5, 4.2 KB
+Received at 1:17 PM
+Viewed 77 times
+https://allmodels.revangeapi.workers.dev/revangeapi/qwen3-coder/chat?prompt=Hello%20world
+https://allmodels.revangeapi.workers.dev/revangeapi/moonshotai-Kimi-K2-Instruct/chat?prompt=Hello%20world
+https://truecaller.privates-bots.workers.dev/?q=
+https://laama.revangeapi.workers.dev/chat?prompt=Hello%20bro
+https://deepseek.ytansh038.workers.dev/?question=Hi
+https://api.streamelements.com/kappa/v2/speech?voice=Salli&text=
+https://claudeai.anshppt19.workers.dev/api/chat?prompt=what%20is%20your%20name
+Choose from: Filiz, Astrid, Tatyana, Maxim, Carmen, Ines, Cristiano, Vitoria, Ricardo, Maja, Jan, Jacek, Ewa, Ruben, Lotte, Liv, Seoyeon, Takumi, Mizuki, Giorgio, Carla, Bianca, Karl, Dora, Mathieu, Celine, Chantal, Penelope, Miguel, Mia, Enrique, Conchita, Geraint, Salli, Matthew, Kimberly, Kendra, Justin, Joey, Joanna, Ivy, Raveena, Aditi, Emma, Brian, Amy, Russell, Nicole, Vicki, Marlene, Hans, Naja, Mads, Gwyneth, Zhiyu, es-ES-Standard-A, it-IT-Standard-A, it-IT-Wavenet-A, ja-JP-Standard-A, ja-JP-Wavenet-A, ko-KR-Standard-A, ko-KR-Wavenet-A, pt-BR-Standard-A, tr-TR-Standard-A, sv-SE-Standard-A, nl-NL-Standard-A, nl-NL-Wavenet-A, en-US-Wavenet-A, en-US-Wavenet-B, en-US-Wavenet-C, en-US-Wavenet-D, en-US-Wavenet-E, en-US-Wavenet-F, en-GB-Standard-A, en-GB-Standard-B, en-GB-Standard-C, en-GB-Standard-D, en-GB-Wavenet-A, en-GB-Wavenet-B, en-GB-Wavenet-C, en-GB-Wavenet-D, en-US-Standard-B, en-US-Standard-C, en-US-Standard-D, en-US-Standard-E, de-DE-Standard-A, de-DE-Standard-B, de-DE-Wavenet-A, de-DE-Wavenet-B, de-DE-Wavenet-C, de-DE-Wavenet-D, en-AU-Standard-A, en-AU-Standard-B, en-AU-Wavenet-A, en-AU-Wavenet-B, en-AU-Wavenet-C, en-AU-Wavenet-D, en-AU-Standard-C, en-AU-Standard-D, fr-CA-Standard-A, fr-CA-Standard-B, fr-CA-Standard-C, fr-CA-Standard-D, fr-FR-Standard-C, fr-FR-Standard-D, fr-FR-Wavenet-A, fr-FR-Wavenet-B, fr-FR-Wavenet-C, fr-FR-Wavenet-D, da-DK-Wavenet-A, pl-PL-Wavenet-A, pl-PL-Wavenet-B, pl-PL-Wavenet-C, pl-PL-Wavenet-D, pt-PT-Wavenet-A, pt-PT-Wavenet-B, pt-PT-Wavenet-C, pt-PT-Wavenet-D, ru-RU-Wavenet-A, ru-RU-Wavenet-B, ru-RU-Wavenet-C, ru-RU-Wavenet-D, sk-SK-Wavenet-A, tr-TR-Wavenet-A, tr-TR-Wavenet-B, tr-TR-Wavenet-C, tr-TR-Wavenet-D, tr-TR-Wavenet-E, uk-UA-Wavenet-A, ar-XA-Wavenet-A, ar-XA-Wavenet-B, ar-XA-Wavenet-C, cs-CZ-Wavenet-A, nl-NL-Wavenet-B, nl-NL-Wavenet-C, nl-NL-Wavenet-D, nl-NL-Wavenet-E, en-IN-Wavenet-A, en-IN-Wavenet-B, en-IN-Wavenet-C, fil-PH-Wavenet-A, fi-FI-Wavenet-A, el-GR-Wavenet-A, hi-IN-Wavenet-A, hi-IN-Wavenet-B, hi-IN-Wavenet-C, hu-HU-Wavenet-A, id-ID-Wavenet-A, id-ID-Wavenet-B, id-ID-Wavenet-C, it-IT-Wavenet-B, it-IT-Wavenet-C, it-IT-Wavenet-D, ja-JP-Wavenet-B, ja-JP-Wavenet-C, ja-JP-Wavenet-D, cmn-CN-Wavenet-A, cmn-CN-Wavenet-B, cmn-CN-Wavenet-C, cmn-CN-Wavenet-D, nb-no-Wavenet-E, nb-no-Wavenet-A, nb-no-Wavenet-B, nb-no-Wavenet-C, nb-no-Wavenet-D, vi-VN-Wavenet-A, vi-VN-Wavenet-B, vi-VN-Wavenet-C, vi-VN-Wavenet-D, sr-rs-Standard-A, lv-lv-Standard-A, is-is-Standard-A, bg-bg-Standard-A, af-ZA-Standard-A, Tracy, Danny, Huihui, Yaoyao, Kangkang, HanHan, Zhiwei, Asaf, An, Stefanos, Filip, Ivan, Heidi, Herena, Kalpana, Hemant, Matej, Andika, Rizwan, Lado, Valluvar, Linda, Heather, Sean, Michael, Karsten, Guillaume, Pattara, Jakub, Szabolcs,
+ 
