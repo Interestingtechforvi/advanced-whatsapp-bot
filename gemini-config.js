@@ -2,7 +2,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const fetch = require("node-fetch");
 
 // Gemini AI Configuration
-const GEMINI_API_KEY = "AIzaSyDRnmNVD_2dNTz3gvzTlfYKIeeo_VG10yU";
+const GEMINI_API_KEY = "AIzaSyC2Fsjk3yCRA8hDVYgg5LlMn4sxwoJJaWU";
 const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/";
 
 // System instruction for all models

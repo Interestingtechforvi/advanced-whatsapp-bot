@@ -13,56 +13,56 @@
         "features": ["text", "image", "audio", "pdf"]
       },
       "chatgpt4": {
-        "name": "ChatGPT-4",
-        "endpoint": "https://api.kastg.xyz/api/ai/chatgptturbo",
-        "description": "OpenAI's GPT-4 model",
-        "features": ["text"]
-      },
-      "claude": {
-        "name": "Claude AI",
-        "endpoint": "https://api.kastg.xyz/api/ai/claude",
-        "description": "Anthropic's Claude AI",
-        "features": ["text"]
-      },
-      "deepseek": {
-        "name": "DeepSeek",
-        "endpoint": "https://api.kastg.xyz/api/ai/deepseek",
-        "description": "DeepSeek AI model for coding and general tasks",
-        "features": ["text", "code"]
-      },
-      "qwen3": {
-        "name": "Qwen3 Coder",
-        "endpoint": "https://api.kastg.xyz/api/ai/qwen",
-        "description": "Qwen3 specialized for coding tasks",
-        "features": ["text", "code"]
-      },
-      "moonshot": {
-        "name": "Moonshot AI",
-        "endpoint": "https://api.kastg.xyz/api/ai/moonshot",
-        "description": "Moonshot AI Kimi model",
-        "features": ["text"]
-      },
-      "llama": {
-        "name": "Llama",
-        "endpoint": "https://api.kastg.xyz/api/ai/llama",
-        "description": "Meta's Llama model",
-        "features": ["text"]
-      }
+         "name": "ChatGPT-4",
+         "endpoint": "https://chatgpt-4-hridoy.vercel.app",
+         "description": "OpenAI's GPT-4 model",
+         "features": ["text"]
+       },
+       "claude": {
+         "name": "Claude AI",
+         "endpoint": "https://claudeai.anshppt19.workers.dev/api/chat",
+         "description": "Anthropic's Claude AI",
+         "features": ["text"]
+       },
+       "deepseek": {
+         "name": "DeepSeek",
+         "endpoint": "https://deepseek.ytansh038.workers.dev",
+         "description": "DeepSeek AI model for coding and general tasks",
+         "features": ["text", "code"]
+       },
+       "qwen3": {
+         "name": "Qwen3 Coder",
+         "endpoint": "https://allmodels.revangeapi.workers.dev/revangeapi/qwen3-coder/chat",
+         "description": "Qwen3 specialized for coding tasks",
+         "features": ["text", "code"]
+       },
+       "moonshot": {
+         "name": "Moonshot AI",
+         "endpoint": "https://allmodels.revangeapi.workers.dev/revangeapi/moonshotai-Kimi-K2-Instruct/chat",
+         "description": "Moonshot AI Kimi model",
+         "features": ["text"]
+       },
+       "llama": {
+         "name": "Llama",
+         "endpoint": "https://laama.revangeapi.workers.dev/chat",
+         "description": "Meta's Llama model",
+         "features": ["text"]
+       }
     }
   },
   "apis": {
     "google_search": {
-      "endpoint": "https://api.kastg.xyz/api/search/google",
+      "endpoint": "https://googlesearchapi.nepcoderapis.workers.dev",
       "enabled": true,
       "description": "Search the web for information"
     },
     "weather": {
-      "endpoint": "https://api.kastg.xyz/api/tools/weather",
+      "endpoint": "https://weather.itz-ashlynn.workers.dev",
       "enabled": true,
       "description": "Get weather information for any location"
     },
     "translator": {
-      "endpoint": "https://api.kastg.xyz/api/tools/translate",
+      "endpoint": "https://hs-translate-text.vercel.app",
       "enabled": true,
       "description": "Translate text to any language"
     },
@@ -72,27 +72,27 @@
       "description": "Alternative Google Translate service"
     },
     "youtube_transcribe": {
-      "endpoint": "https://api.kastg.xyz/api/tools/youtube-transcript",
+      "endpoint": "https://api.hazex.sbs/yt-transcribe",
       "enabled": true,
       "description": "Transcribe YouTube videos"
     },
     "youtube_summarizer": {
-      "endpoint": "https://api.kastg.xyz/api/tools/youtube-summary",
+      "endpoint": "https://api.hazex.sbs/yt-summarizer",
       "enabled": true,
       "description": "Summarize YouTube videos"
     },
     "truecaller": {
-      "endpoint": "https://api.kastg.xyz/api/tools/truecaller",
+      "endpoint": "https://truecaller.privates-bots.workers.dev",
       "enabled": true,
       "description": "Get phone number information"
     },
     "phone_info": {
-      "endpoint": "https://api.kastg.xyz/api/tools/phone-specs",
+      "endpoint": "https://api.yabes-desu.workers.dev/tools/phone-info",
       "enabled": true,
       "description": "Get detailed phone specifications"
     },
     "image_to_pdf": {
-      "endpoint": "https://api.kastg.xyz/api/tools/img2pdf",
+      "endpoint": "https://anshimagetopdfapi.onrender.com/anshapi/imagetopdf",
       "enabled": true,
       "description": "Convert images to PDF"
     },

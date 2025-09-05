@@ -409,26 +409,48 @@ class ResponseHandler {
      */
     async callExternalAI(modelConfig, message) {
         try {
-            const response = await fetch(modelConfig.endpoint, {
+            let url = modelConfig.endpoint;
+            let options = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'User-Agent': 'WhatsApp-Bot/1.0'
                 },
-                body: JSON.stringify({
-                    prompt: message,
-                    message: message,
-                    query: message
-                }),
                 timeout: 15000
-            });
-            
+            };
+
+            // Handle different API formats
+            if (modelConfig.endpoint.includes('vercel.app')) {
+                // ChatGPT-4 format
+                url += `?question=${encodeURIComponent(message)}`;
+                options.method = 'GET';
+                delete options.body;
+            } else if (modelConfig.endpoint.includes('workers.dev')) {
+                if (modelConfig.endpoint.includes('claudeai')) {
+                    // Claude format
+                    options.body = JSON.stringify({ prompt: message });
+                } else if (modelConfig.endpoint.includes('deepseek')) {
+                    // DeepSeek format
+                    url += `?question=${encodeURIComponent(message)}`;
+                    options.method = 'GET';
+                    delete options.body;
+                } else if (modelConfig.endpoint.includes('revangeapi')) {
+                    // Revange API format
+                    options.body = JSON.stringify({ prompt: message });
+                } else if (modelConfig.endpoint.includes('laama')) {
+                    // Llama format
+                    options.body = JSON.stringify({ prompt: message });
+                }
+            }
+
+            const response = await fetch(url, options);
+
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
-            
+
             const data = await response.json();
-            return data.response || data.answer || data.result || data.reply || JSON.stringify(data);
+            return data.response || data.answer || data.result || data.reply || data.text || JSON.stringify(data);
         } catch (error) {
             throw new Error(`External AI call failed: ${error.message}`);
         }

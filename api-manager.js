@@ -77,15 +77,9 @@ class APIManager {
         }
 
         try {
-            const response = await this.makeRequest(api.endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: query,
-                    limit: numResults
-                })
+            const url = `${api.endpoint}?q=${encodeURIComponent(query)}&num=${numResults}`;
+            const response = await this.makeRequest(url, {
+                method: 'GET'
             });
 
             return {
@@ -116,21 +110,26 @@ class APIManager {
         }
 
         try {
-            const response = await this.makeRequest(api.endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    location: location
-                })
+            const url = `${api.endpoint}/search-city?q=${encodeURIComponent(location)}`;
+            const searchResponse = await this.makeRequest(url, {
+                method: 'GET'
             });
 
-            return {
-                success: true,
-                data: response.data || response,
-                summary: `🌤️ Weather for ${location}: ${response.data?.current?.condition || 'N/A'}, ${response.data?.current?.temperature || 'N/A'}°C`
-            };
+            if (searchResponse.result && searchResponse.result.length > 0) {
+                const cityData = searchResponse.result[0];
+                const weatherUrl = `${api.endpoint}/all-weather?lat=${cityData.lat}&lon=${cityData.lon}&key=your_api_key`;
+                const weatherResponse = await this.makeRequest(weatherUrl, {
+                    method: 'GET'
+                });
+
+                return {
+                    success: true,
+                    data: weatherResponse,
+                    summary: `🌤️ Weather for ${location}: ${weatherResponse.current?.condition || 'N/A'}, ${weatherResponse.current?.temp || 'N/A'}°C`
+                };
+            } else {
+                throw new Error('Location not found');
+            }
         } catch (error) {
             return {
                 success: false,
@@ -154,22 +153,15 @@ class APIManager {
         }
 
         try {
-            const response = await this.makeRequest(api.endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    text: text,
-                    target: targetLanguage,
-                    source: 'auto'
-                })
+            const url = `${api.endpoint}?text=${encodeURIComponent(text)}&targetLang=${targetLanguage}`;
+            const response = await this.makeRequest(url, {
+                method: 'GET'
             });
 
             return {
                 success: true,
-                translatedText: response.translated || response.result || response.data,
-                summary: `🌐 Translated to ${targetLanguage}: ${response.translated || response.result || response.data}`
+                translatedText: response.translatedText || response.result || response.data,
+                summary: `🌐 Translated to ${targetLanguage}: ${response.translatedText || response.result || response.data}`
             };
         } catch (error) {
             // Try alternative Google Translate
@@ -178,7 +170,7 @@ class APIManager {
                 if (altApi && altApi.enabled) {
                     const altUrl = `${altApi.endpoint}?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURIComponent(text)}`;
                     const altResponse = await this.makeRequest(altUrl);
-                    
+
                     // Parse Google Translate response
                     const translatedText = altResponse[0][0][0];
                     return {
@@ -190,7 +182,7 @@ class APIManager {
             } catch (altError) {
                 console.error('Alternative translation also failed:', altError.message);
             }
-            
+
             return {
                 success: false,
                 error: error.message,
@@ -213,14 +205,9 @@ class APIManager {
         }
 
         try {
-            const response = await this.makeRequest(api.endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    url: videoUrl
-                })
+            const url = `${api.endpoint}?url=${encodeURIComponent(videoUrl)}`;
+            const response = await this.makeRequest(url, {
+                method: 'GET'
             });
 
             return {
@@ -251,15 +238,9 @@ class APIManager {
         }
 
         try {
-            const response = await this.makeRequest(api.endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    url: videoUrl,
-                    length: wordCount
-                })
+            const url = `${api.endpoint}?url=${encodeURIComponent(videoUrl)}&wordCount=${wordCount}`;
+            const response = await this.makeRequest(url, {
+                method: 'GET'
             });
 
             return {
@@ -290,14 +271,9 @@ class APIManager {
         }
 
         try {
-            const response = await this.makeRequest(api.endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    phone: phoneNumber
-                })
+            const url = `${api.endpoint}?q=${encodeURIComponent(phoneNumber)}`;
+            const response = await this.makeRequest(url, {
+                method: 'GET'
             });
 
             return {
@@ -328,14 +304,9 @@ class APIManager {
         }
 
         try {
-            const response = await this.makeRequest(api.endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: phoneModel
-                })
+            const url = `${api.endpoint}?query=${encodeURIComponent(phoneModel)}`;
+            const response = await this.makeRequest(url, {
+                method: 'GET'
             });
 
             return {

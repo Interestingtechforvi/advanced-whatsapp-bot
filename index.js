@@ -153,9 +153,41 @@ async function startWhatsApp() {
             // Handle text messages with enhanced routing
             else if (incomingText) {
                 console.log("Processing text message with enhanced routing...");
-                
+
+                // Check for transcription command with quoted audio
+                if (incomingText.toLowerCase() === '/transcribe' && msg.message.extendedTextMessage?.contextInfo?.quotedMessage?.audioMessage) {
+                    console.log("Processing /transcribe command for quoted audio...");
+                    try {
+                        const quotedMessage = msg.message.extendedTextMessage.contextInfo.quotedMessage;
+                        const quotedMsg = {
+                            message: {
+                                audioMessage: quotedMessage.audioMessage,
+                                pttMessage: quotedMessage.pttMessage
+                            }
+                        };
+
+                        // Download the quoted audio
+                        const buffer = await downloadMediaMessage(quotedMsg, "buffer");
+                        const mimeType = quotedMessage.audioMessage?.mimetype || quotedMessage.pttMessage?.mimetype || "audio/ogg";
+
+                        // Process audio with Gemini (transcribe + respond + TTS)
+                        const audioResult = await processAudio(buffer, mimeType, 'female');
+
+                        if (audioResult.success) {
+                            responseData = await getChatResponse(userId, audioResult.transcription);
+                            if (!responseData.audioResponse && audioResult.audioResponse) {
+                                responseData.audioResponse = audioResult.audioResponse;
+                            }
+                        } else {
+                            responseData.textResponse = audioResult.textResponse;
+                        }
+                    } catch (error) {
+                        console.error("Transcription error:", error);
+                        responseData.textResponse = "❌ Sorry, I couldn't process the audio message. Please try again.";
+                    }
+                }
                 // Check for model selection commands
-                if (incomingText.toLowerCase().startsWith('/model ')) {
+                else if (incomingText.toLowerCase().startsWith('/model ')) {
                     const modelName = incomingText.substring(7).trim();
                     const success = configManager.setUserAIModel(userId, modelName);
                     if (success) {
@@ -168,18 +200,21 @@ async function startWhatsApp() {
                     const models = configManager.getAIModels();
                     const currentModel = configManager.getUserAIModel(userId);
                     let response = "🤖 **Available AI Models:**\n\n";
-                    
+
                     for (const [key, model] of Object.entries(models)) {
                         const current = key === currentModel ? " ✅ (current)" : "";
                         response += `• **${model.name}**${current}\n`;
                         response += `  ${model.description}\n`;
                         response += `  Features: ${model.features?.join(', ') || 'text'}\n\n`;
                     }
-                    
+
                     response += `To change model, send: /model <model_name>\nExample: /model chatgpt4`;
                     responseData.textResponse = response;
                 } else if (incomingText.toLowerCase() === '/help') {
                     responseData.textResponse = getHelpMessage();
+                } else if (incomingText.toLowerCase() === '/transcribe') {
+                    // Handle /transcribe without quoted message
+                    responseData.textResponse = "🎤 **Audio Transcription**\n\nTo transcribe audio:\n1. Reply to a voice message with */transcribe*\n2. Or send an audio file with the caption */transcribe*\n\nSupported formats: MP3, WAV, OGG, M4A";
                 } else {
                     // Use enhanced response handler
                     responseData = await getChatResponse(userId, incomingText);
