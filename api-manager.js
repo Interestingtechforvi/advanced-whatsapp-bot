@@ -158,12 +158,31 @@ class APIManager {
                 method: 'GET'
             });
 
+            // Handle different response formats
+            let translatedText = response.translatedText || response.result || response.data;
+
+            // If response is a string and matches input, try alternative
+            if (typeof translatedText === 'string' && translatedText.trim() === text.trim()) {
+                throw new Error('Translation returned same text');
+            }
+
+            // If response is an object, try to extract translation
+            if (typeof response === 'object' && !translatedText) {
+                translatedText = response.translation || response.translated || response.text;
+            }
+
+            if (!translatedText || translatedText.trim() === text.trim()) {
+                throw new Error('Invalid translation response');
+            }
+
             return {
                 success: true,
-                translatedText: response.translatedText || response.result || response.data,
-                summary: `🌐 Translated to ${targetLanguage}: ${response.translatedText || response.result || response.data}`
+                translatedText: translatedText,
+                summary: `🌐 Translated to ${targetLanguage}: ${translatedText}`
             };
         } catch (error) {
+            console.log('Primary translation failed, trying alternative:', error.message);
+
             // Try alternative Google Translate
             try {
                 const altApi = configManager.get('apis.translator_alt');
@@ -172,12 +191,20 @@ class APIManager {
                     const altResponse = await this.makeRequest(altUrl);
 
                     // Parse Google Translate response
-                    const translatedText = altResponse[0][0][0];
-                    return {
-                        success: true,
-                        translatedText: translatedText,
-                        summary: `🌐 Translated to ${targetLanguage}: ${translatedText}`
-                    };
+                    let translatedText;
+                    if (Array.isArray(altResponse) && altResponse[0] && altResponse[0][0] && altResponse[0][0][0]) {
+                        translatedText = altResponse[0][0][0];
+                    } else if (typeof altResponse === 'object') {
+                        translatedText = altResponse.translation || altResponse.translatedText || altResponse.result;
+                    }
+
+                    if (translatedText && translatedText !== text) {
+                        return {
+                            success: true,
+                            translatedText: translatedText,
+                            summary: `🌐 Translated to ${targetLanguage}: ${translatedText}`
+                        };
+                    }
                 }
             } catch (altError) {
                 console.error('Alternative translation also failed:', altError.message);
@@ -405,22 +432,39 @@ class APIManager {
      */
     detectIntent(message) {
         const lowerMessage = message.toLowerCase();
-        
+
+        // Direct command detection (highest priority)
+        if (lowerMessage === '/models') {
+            return { intent: 'models_list', confidence: 1.0 };
+        }
+
+        if (lowerMessage.startsWith('/model ')) {
+            return { intent: 'model_switch', confidence: 1.0 };
+        }
+
+        if (lowerMessage === '/help') {
+            return { intent: 'help', confidence: 1.0 };
+        }
+
+        if (lowerMessage === '/transcribe') {
+            return { intent: 'transcribe_help', confidence: 1.0 };
+        }
+
         // Search intent
         if (lowerMessage.includes('search') || lowerMessage.includes('google') || lowerMessage.includes('find')) {
             return { intent: 'search', confidence: 0.8 };
         }
-        
+
         // Weather intent
         if (lowerMessage.includes('weather') || lowerMessage.includes('temperature') || lowerMessage.includes('forecast')) {
             return { intent: 'weather', confidence: 0.9 };
         }
-        
+
         // Translation intent
         if (lowerMessage.includes('translate') || lowerMessage.includes('translation')) {
             return { intent: 'translate', confidence: 0.9 };
         }
-        
+
         // YouTube intent
         if (lowerMessage.includes('youtube.com') || lowerMessage.includes('youtu.be')) {
             if (lowerMessage.includes('summarize') || lowerMessage.includes('summary')) {
@@ -429,17 +473,17 @@ class APIManager {
                 return { intent: 'youtube_transcribe', confidence: 0.8 };
             }
         }
-        
+
         // Phone lookup intent
         if (lowerMessage.includes('phone number') || lowerMessage.includes('truecaller')) {
             return { intent: 'phone_lookup', confidence: 0.8 };
         }
-        
+
         // Phone specs intent
         if (lowerMessage.includes('phone specs') || lowerMessage.includes('phone info')) {
             return { intent: 'phone_info', confidence: 0.8 };
         }
-        
+
         return { intent: 'chat', confidence: 0.5 };
     }
 }

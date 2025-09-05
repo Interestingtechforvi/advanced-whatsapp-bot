@@ -24,27 +24,39 @@ class ResponseHandler {
             
             // Route to appropriate handler
             switch (intentResult.intent) {
+                case 'models_list':
+                    return await this.handleModelsList(userId);
+
+                case 'model_switch':
+                    return await this.handleModelSwitch(userId, message);
+
+                case 'help':
+                    return await this.handleHelp(userId);
+
+                case 'transcribe_help':
+                    return await this.handleTranscribeHelp(userId);
+
                 case 'search':
                     return await this.handleSearch(userId, message);
-                
+
                 case 'weather':
                     return await this.handleWeather(userId, message);
-                
+
                 case 'translate':
                     return await this.handleTranslation(userId, message);
-                
+
                 case 'youtube_transcribe':
                     return await this.handleYouTubeTranscribe(userId, message);
-                
+
                 case 'youtube_summarize':
                     return await this.handleYouTubeSummarize(userId, message);
-                
+
                 case 'phone_lookup':
                     return await this.handlePhoneLookup(userId, message);
-                
+
                 case 'phone_info':
                     return await this.handlePhoneInfo(userId, message);
-                
+
                 default:
                     return await this.handleChat(userId, message, mediaData);
             }
@@ -357,6 +369,137 @@ class ResponseHandler {
                 audioResponse: null
             };
         }
+    }
+
+    /**
+     * Handle models list command
+     */
+    async handleModelsList(userId) {
+        try {
+            const models = configManager.getAIModels();
+            const currentModel = configManager.getUserAIModel(userId);
+            let response = "🤖 **Available AI Models:**\n\n";
+
+            for (const [key, model] of Object.entries(models)) {
+                const current = key === currentModel ? " ✅ (current)" : "";
+                response += `• **${model.name}**${current}\n`;
+                response += `  ${model.description}\n`;
+                response += `  Features: ${model.features?.join(', ') || 'text'}\n\n`;
+            }
+
+            response += `To change model, send: /model <model_name>\nExample: /model chatgpt4`;
+
+            return {
+                textResponse: response,
+                audioResponse: null
+            };
+        } catch (error) {
+            return {
+                textResponse: `❌ Error loading models: ${error.message}`,
+                audioResponse: null
+            };
+        }
+    }
+
+    /**
+     * Handle model switch command
+     */
+    async handleModelSwitch(userId, message) {
+        try {
+            const modelName = message.substring(7).trim(); // Remove '/model '
+            const success = configManager.setUserAIModel(userId, modelName);
+
+            if (success) {
+                const audioResponse = await this.generateVoiceResponse(userId, `AI model changed to ${modelName}`);
+                return {
+                    textResponse: `✅ AI model changed to ${modelName}. Your future messages will use this model.`,
+                    audioResponse: audioResponse
+                };
+            } else {
+                const availableModels = Object.keys(configManager.getAIModels());
+                return {
+                    textResponse: `❌ Model "${modelName}" not found. Available models: ${availableModels.join(', ')}`,
+                    audioResponse: null
+                };
+            }
+        } catch (error) {
+            return {
+                textResponse: `❌ Error switching model: ${error.message}`,
+                audioResponse: null
+            };
+        }
+    }
+
+    /**
+     * Handle help command
+     */
+    async handleHelp(userId) {
+        const helpMessage = `🆘 **Enhanced AI Assistant Help**
+
+🤖 **AI Models:**
+• Send \`/models\` to see all available AI models
+• Send \`/model <name>\` to switch AI model (e.g., \`/model gemini\`)
+• Send \`/help\` for detailed help
+
+🔍 **Search:**
+• "Search for latest AI news"
+• "Google quantum computing"
+• "Find information about climate change"
+
+🌤️ **Weather:**
+• "Weather in New York"
+• "Temperature in London"
+• "Forecast for Tokyo"
+
+🌐 **Translation:**
+• "Translate hello to Spanish"
+• "Translate 'How are you?' to French"
+
+📹 **YouTube:**
+• Send any YouTube URL to transcribe
+• "Summarize [YouTube URL]" for summary
+
+📞 **Phone Lookup:**
+• "Phone number +1234567890" (Truecaller)
+• "iPhone 15 specs" (Phone specifications)
+
+💡 **Tips:**
+• I automatically detect what you want to do
+• Send images for AI analysis
+• Send PDFs for text extraction
+• Send voice messages for transcription
+• All responses can include voice replies
+
+Created by **Shaikh Juned** - shaikhjuned.co.in 🌟`;
+
+        return {
+            textResponse: helpMessage,
+            audioResponse: null
+        };
+    }
+
+    /**
+     * Handle transcribe help command
+     */
+    async handleTranscribeHelp(userId) {
+        const transcribeMessage = `🎤 **Audio Transcription Help**
+
+To transcribe audio:
+1. Reply to a voice message with */transcribe*
+2. Or send an audio file with the caption */transcribe*
+
+Supported formats: MP3, WAV, OGG, M4A
+
+Example:
+1. Send a voice message
+2. Reply to it with: /transcribe
+
+The bot will transcribe your audio and respond!`;
+
+        return {
+            textResponse: transcribeMessage,
+            audioResponse: null
+        };
     }
 
     /**
